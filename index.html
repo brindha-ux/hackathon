@@ -36,7 +36,7 @@
       overflow-x:hidden;
     }
 
-    /* ====== Top Notice ====== */
+    /* ====== Topbar ====== */
     .topbar{
       position:sticky;
       top:0;
@@ -60,7 +60,7 @@
       display:flex;
       align-items:center;
       gap:12px;
-      min-width:240px;
+      min-width:220px;
     }
 
     .logo{
@@ -74,6 +74,7 @@
       box-shadow: 0 14px 30px rgba(0,0,0,.35);
       position:relative;
       overflow:hidden;
+      flex: 0 0 auto;
     }
     .logo::after{
       content:"</>";
@@ -103,7 +104,7 @@
     nav{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:8px;
       flex-wrap:wrap;
       justify-content:flex-end;
     }
@@ -116,6 +117,7 @@
       border-radius:12px;
       border:1px solid transparent;
       transition:.25s ease;
+      white-space:nowrap;
     }
     nav a:hover{
       background: rgba(255,255,255,.06);
@@ -143,6 +145,7 @@
       color:white;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       box-shadow: 0 18px 40px rgba(255,45,85,.18);
+      white-space:nowrap;
     }
     .btn:hover{ transform: translateY(-1px); filter:saturate(1.08); }
     .btn:active{ transform: translateY(0px); }
@@ -154,6 +157,48 @@
       color:rgba(255,255,255,.92);
     }
     .btn.secondary:hover{ background: rgba(255,255,255,.10); }
+
+    /* ====== Mobile Menu ====== */
+    .menuBtn{
+      display:none;
+      border:none;
+      cursor:pointer;
+      width:42px;height:42px;
+      border-radius:14px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.92);
+      font-size:18px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .mobileNav{
+      display:none;
+      padding:0 18px 14px;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    .mobileNav.open{ display:block; }
+
+    .mobileNav .navBox{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding:12px;
+      display:grid;
+      gap:8px;
+    }
+    .mobileNav a{
+      text-decoration:none;
+      color:rgba(255,255,255,.86);
+      padding:12px 12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight:700;
+      font-size:13px;
+    }
 
     /* ====== Layout ====== */
     .container{
@@ -205,7 +250,7 @@
 
     .title{
       margin:14px 0 8px;
-      font-size:44px;
+      font-size:clamp(28px, 4vw, 46px);
       line-height:1.05;
       letter-spacing:-.6px;
     }
@@ -287,7 +332,7 @@
     }
     .t strong{
       display:block;
-      font-size:22px;
+      font-size:clamp(18px, 2.4vw, 22px);
       letter-spacing:.5px;
     }
     .t span{
@@ -317,9 +362,7 @@
     .pill small{ color:var(--muted); display:block; margin-top:4px; line-height:1.35; }
 
     /* ====== Sections ====== */
-    section{
-      margin-top:24px;
-    }
+    section{ margin-top:24px; }
 
     .sectionTitle{
       display:flex;
@@ -327,6 +370,7 @@
       justify-content:space-between;
       gap:12px;
       margin:18px 0 10px;
+      flex-wrap:wrap;
     }
     .sectionTitle h2{
       margin:0;
@@ -343,6 +387,11 @@
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap:14px;
+    }
+
+    /* Auto responsive grid */
+    .grid.auto{
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     }
 
     .track{
@@ -383,10 +432,7 @@
       line-height:1.7;
       font-size:13px;
     }
-    ul.clean li{
-      margin:6px 0;
-      color:rgba(255,255,255,.82);
-    }
+    ul.clean li{ margin:6px 0; color:rgba(255,255,255,.82); }
 
     .panel{
       padding:18px;
@@ -396,10 +442,7 @@
     }
 
     /* ====== Form ====== */
-    form{
-      display:grid;
-      gap:12px;
-    }
+    form{ display:grid; gap:12px; }
     .row{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -467,10 +510,7 @@
       display:none;
     }
     .faqItem.open .faqA{ display:block; }
-    .chev{
-      transition:.2s ease;
-      opacity:.8;
-    }
+    .chev{ transition:.2s ease; opacity:.8; }
     .faqItem.open .chev{ transform: rotate(180deg); }
 
     /* ====== Footer ====== */
@@ -516,10 +556,7 @@
       gap:10px;
       margin-bottom:8px;
     }
-    .modalHead h3{
-      margin:0;
-      font-size:18px;
-    }
+    .modalHead h3{ margin:0; font-size:18px; }
     .close{
       background: rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.12);
@@ -537,16 +574,24 @@
       font-size:22px;
     }
 
-    /* ====== Responsive ====== */
+    /* ====== Responsive Breakpoints ====== */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .infoRow{ grid-template-columns: 1fr; }
-      .grid{ grid-template-columns: 1fr; }
       .twoCol{ grid-template-columns: 1fr; }
       .row{ grid-template-columns: 1fr; }
-      .title{ font-size: 36px; }
       nav{ display:none; }
+      .menuBtn{ display:flex; }
       .brand{ min-width:auto; }
+      .btn{ padding:10px 12px; }
+    }
+
+    @media (max-width: 420px){
+      .heroLeft{ padding:18px; }
+      .heroRight{ padding:14px; }
+      .timer{ grid-template-columns: repeat(2, 1fr); }
+      .pill{ padding:12px 14px; }
+      .mini{ padding:12px; }
     }
   </style>
 </head>
@@ -572,7 +617,20 @@
         <a href="#faq">FAQ</a>
       </nav>
 
+      <button class="menuBtn" id="menuBtn" aria-label="Open Menu">☰</button>
       <a class="btn" href="#register" title="Register Now">🚀 Register</a>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="mobileNav" id="mobileNav">
+      <div class="navBox">
+        <a href="#home">🏠 Home</a>
+        <a href="#tracks">💡 Tracks</a>
+        <a href="#rules">📌 Rules</a>
+        <a href="#schedule">🕒 Schedule</a>
+        <a href="#register">📝 Register</a>
+        <a href="#faq">❓ FAQ</a>
+      </div>
     </div>
   </header>
 
@@ -666,7 +724,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid auto">
         <div class="track">
           <div class="icon">🌐</div>
           <h3>Web Development</h3>
@@ -747,7 +805,7 @@
         </div>
       </div>
 
-      <div class="grid">
+      <div class="grid auto">
         <div class="track">
           <div class="icon">🎤</div>
           <h3>9:00 AM – 9:30 AM</h3>
@@ -950,12 +1008,8 @@
     </section>
 
     <footer>
-      <div>
-        <b>HACKVERSE : Build Beyond Limits</b> • St Joseph’s College for Women, Tiruppur
-      </div>
-      <div>
-        Made with ❤️ using HTML • CSS • JavaScript
-      </div>
+      <div><b>HACKVERSE : Build Beyond Limits</b> • St Joseph’s College for Women, Tiruppur</div>
+      <div>Made with ❤️ using HTML • CSS • JavaScript</div>
     </footer>
   </main>
 
@@ -979,14 +1033,30 @@
   </div>
 
   <script>
+    // ====== Mobile Menu Toggle ======
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileNav = document.getElementById("mobileNav");
+
+    menuBtn.addEventListener("click", () => {
+      mobileNav.classList.toggle("open");
+      menuBtn.textContent = mobileNav.classList.contains("open") ? "✕" : "☰";
+    });
+
+    // Close menu on click link
+    mobileNav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileNav.classList.remove("open");
+        menuBtn.textContent = "☰";
+      });
+    });
+
     // ====== Active Nav on Scroll ======
-    const sections = document.querySelectorAll("main section, main#home");
     const navLinks = document.querySelectorAll("#nav a");
 
     const setActive = () => {
       let current = "home";
       document.querySelectorAll("main section").forEach(sec => {
-        const top = sec.offsetTop - 120;
+        const top = sec.offsetTop - 140;
         if (window.scrollY >= top) current = sec.id;
       });
 
@@ -997,8 +1067,7 @@
     window.addEventListener("scroll", setActive);
 
     // ====== Countdown Timer (EDIT DATE HERE) ======
-    // Format: "YYYY-MM-DDTHH:MM:SS"
-    const EVENT_DATE = "2026-02-10T09:00:00"; // <-- Change this date & time
+    const EVENT_DATE = "2026-02-10T09:00:00"; // Change this
     const eventDateText = document.getElementById("eventDateText");
     eventDateText.textContent = EVENT_DATE.split("T")[0];
 
@@ -1085,7 +1154,6 @@
         return;
       }
 
-      // Success
       openModal();
       regForm.reset();
     });
