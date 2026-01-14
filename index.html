@@ -16,7 +16,7 @@
       --muted: rgba(255,255,255,.68);
       --accent:#ff2d55;
       --accent2:#7c3aed;
-      --accent3:#22c55e;
+      --good:#22c55e;
       --shadow: 0 20px 60px rgba(0,0,0,.45);
       --radius: 18px;
       --radius2: 26px;
@@ -63,42 +63,28 @@
       min-width:220px;
     }
 
-    .logo{
-      width:42px;height:42px;
+    .collegeLogo{
+      width:44px;
+      height:44px;
       border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,45,85,.9), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(124,58,237,.9), transparent 55%),
-        rgba(255,255,255,.08);
+      object-fit:cover;
+      background: rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 14px 30px rgba(0,0,0,.35);
-      position:relative;
-      overflow:hidden;
-      flex: 0 0 auto;
-    }
-    .logo::after{
-      content:"</>";
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      font-size:14px;
-      letter-spacing:.4px;
-      color:rgba(255,255,255,.92);
-      text-shadow: 0 8px 22px rgba(0,0,0,.55);
+      flex:0 0 auto;
     }
 
     .brand h1{
       margin:0;
       font-size:14px;
-      line-height:1.1;
+      line-height:1.15;
       letter-spacing:.2px;
     }
     .brand p{
       margin:2px 0 0;
       font-size:12px;
       color:var(--muted);
+      line-height:1.25;
     }
 
     nav{
@@ -135,7 +121,7 @@
       cursor:pointer;
       padding:11px 14px;
       border-radius:14px;
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.2px;
       transition:.25s ease;
       display:inline-flex;
@@ -196,7 +182,7 @@
       border-radius:14px;
       background: rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.10);
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
     }
 
@@ -286,13 +272,13 @@
       margin:0 0 6px;
       font-size:12px;
       color:rgba(255,255,255,.72);
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.3px;
       text-transform:uppercase;
     }
     .mini p{
       margin:0;
-      font-weight:800;
+      font-weight:900;
       font-size:14px;
       letter-spacing:.2px;
     }
@@ -389,7 +375,6 @@
       gap:14px;
     }
 
-    /* Auto responsive grid */
     .grid.auto{
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     }
@@ -402,6 +387,7 @@
       transition:.25s ease;
       position:relative;
       overflow:hidden;
+      cursor:pointer;
     }
     .track:hover{
       transform: translateY(-3px);
@@ -418,6 +404,22 @@
     }
     .track h3{ margin:0 0 6px; font-size:16px; }
     .track p{ margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
+    .tagRow{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      font-size:11px;
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      color:rgba(255,255,255,.78);
+      font-weight:800;
+      letter-spacing:.2px;
+    }
 
     .twoCol{
       display:grid;
@@ -441,6 +443,35 @@
       border:1px solid rgba(255,255,255,.12);
     }
 
+    /* ====== Projects Section ====== */
+    .searchBar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin:12px 0 0;
+    }
+    .searchWrap{
+      flex:1;
+      min-width: 240px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .searchWrap input{
+      flex:1;
+    }
+    .countBadge{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.78);
+      font-weight:800;
+    }
+
     /* ====== Form ====== */
     form{ display:grid; gap:12px; }
     .row{
@@ -453,7 +484,7 @@
       color:rgba(255,255,255,.72);
       display:block;
       margin:0 0 6px;
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.2px;
     }
     input, select, textarea{
@@ -494,7 +525,7 @@
       background: transparent;
       border:none;
       color:rgba(255,255,255,.92);
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
       display:flex;
       align-items:center;
@@ -542,7 +573,7 @@
     }
     .modal.open{ display:grid; }
     .modalCard{
-      width:min(560px, 100%);
+      width:min(620px, 100%);
       border-radius: 24px;
       border:1px solid rgba(255,255,255,.16);
       background: rgba(18,18,30,.72);
@@ -564,6 +595,7 @@
       padding:10px 12px;
       border-radius:14px;
       cursor:pointer;
+      font-weight:900;
     }
     .successIcon{
       width:54px;height:54px;border-radius:20px;
@@ -572,6 +604,28 @@
       border:1px solid rgba(34,197,94,.25);
       margin:12px 0 10px;
       font-size:22px;
+    }
+
+    .modalBody p{
+      margin:8px 0 0;
+      color:rgba(255,255,255,.82);
+      line-height:1.6;
+      font-size:13px;
+    }
+    .modalGrid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .modalMini{
+      padding:12px;
+      border-radius:16px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.86);
+      font-size:12px;
+      line-height:1.45;
     }
 
     /* ====== Responsive Breakpoints ====== */
@@ -592,6 +646,7 @@
       .timer{ grid-template-columns: repeat(2, 1fr); }
       .pill{ padding:12px 14px; }
       .mini{ padding:12px; }
+      .modalGrid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -601,18 +656,27 @@
   <header class="topbar">
     <div class="wrap">
       <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
+        <!-- Logo from college site (fallback included) -->
+        <img
+          class="collegeLogo"
+          id="collegeLogo"
+          src="https://stjosephcollegetup.edu.in/Content/Images/logo.png"
+          alt="St Joseph’s College for Women, Tiruppur Logo"
+          onerror="this.onerror=null; this.src='https://stjosephcollegetup.edu.in/Content/images/logo.png';"
+        />
         <div>
           <h1>St Joseph’s College for Women, Tiruppur</h1>
-          <p>Department of Computer Science • Hackathon Event</p>
+          <p><b>Department:</b> B.Sc. Computer Science with Data Analytics</p>
+          <p><b>Principal:</b> Dr. S. Sahaya Tamil Selvi</p>
         </div>
       </div>
 
       <nav id="nav">
         <a href="#home" class="active">Home</a>
-        <a href="#tracks">Tracks</a>
+        <a href="#projects">Problem Ideas</a>
         <a href="#rules">Rules</a>
         <a href="#schedule">Schedule</a>
+        <a href="#organizers">Organizers</a>
         <a href="#register">Register</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -625,9 +689,10 @@
     <div class="mobileNav" id="mobileNav">
       <div class="navBox">
         <a href="#home">🏠 Home</a>
-        <a href="#tracks">💡 Tracks</a>
+        <a href="#projects">💡 Problem Ideas</a>
         <a href="#rules">📌 Rules</a>
         <a href="#schedule">🕒 Schedule</a>
+        <a href="#organizers">👩‍💻 Organizers</a>
         <a href="#register">📝 Register</a>
         <a href="#faq">❓ FAQ</a>
       </div>
@@ -640,20 +705,20 @@
       <div class="card heroLeft">
         <div class="badge">
           <span class="dot"></span>
-          <span>CS Department Hackathon 2026</span>
+          <span>CS Department Hackathon 2026 • Campus Innovation Challenge</span>
         </div>
 
         <h2 class="title">HACKVERSE : <br/>Build Beyond Limits</h2>
 
         <p class="subtitle">
-          Join the most exciting coding battle at <b>St Joseph’s College for Women, Tiruppur</b>.
-          Build innovative solutions in <b>Web</b>, <b>App</b>, <b>AI/ML</b>, <b>Cybersecurity</b> & <b>Data Analytics</b>.
-          Collaborate, create, and win exciting prizes!
+          Welcome to the official hackathon page of <b>St Joseph’s College for Women, Tiruppur</b> 🎓✨
+          Organized by the <b>Department of B.Sc. Computer Science with Data Analytics</b>.
+          Build real-world solutions, showcase your skills, and win exciting prizes!
         </p>
 
         <div class="heroActions">
           <a class="btn" href="#register">✨ Register Now</a>
-          <a class="btn secondary" href="#rules">📌 View Rules</a>
+          <a class="btn secondary" href="#projects">💡 View Problem Ideas</a>
           <button class="btn secondary" id="copyLinkBtn">🔗 Copy Event Link</button>
         </div>
 
@@ -691,7 +756,7 @@
           <div class="pill">
             <div>
               <b>🎯 Eligibility</b>
-              <small>Only for Computer Science Department students</small>
+              <small>Only CS Department students (B.Sc CS + Data Analytics)</small>
             </div>
             <span>✔</span>
           </div>
@@ -706,64 +771,42 @@
 
           <div class="pill">
             <div>
-              <b>📍 Venue</b>
-              <small>Computer Lab / Seminar Hall</small>
+              <b>📌 Location</b>
+              <small>St Joseph’s College for Women, Tiruppur</small>
             </div>
-            <span>📌</span>
+            <span>📍</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Tracks -->
-    <section id="tracks">
+    <!-- Problem Ideas -->
+    <section id="projects">
       <div class="sectionTitle">
         <div>
-          <h2>Tracks / Domains</h2>
-          <p>Choose a track and build a working prototype.</p>
+          <h2>Hackathon Problem Ideas (Interactive)</h2>
+          <p>Click any card to view details. You can also search.</p>
         </div>
       </div>
 
-      <div class="grid auto">
-        <div class="track">
-          <div class="icon">🌐</div>
-          <h3>Web Development</h3>
-          <p>Build responsive websites, dashboards, portals, or web apps that solve real problems.</p>
+      <div class="searchBar">
+        <div class="searchWrap">
+          <input id="searchInput" type="text" placeholder="Search ideas... (attendance, bus, safety, notes...)" />
+          <button class="btn secondary" id="clearSearchBtn">✖ Clear</button>
         </div>
-
-        <div class="track">
-          <div class="icon">📱</div>
-          <h3>Mobile App Development</h3>
-          <p>Create Android apps (APK) or cross-platform apps with a clean UI and strong features.</p>
-        </div>
-
-        <div class="track">
-          <div class="icon">🤖</div>
-          <h3>AI / ML</h3>
-          <p>Work on intelligent systems, prediction models, chatbots, or automation tools.</p>
-        </div>
-
-        <div class="track">
-          <div class="icon">🛡️</div>
-          <h3>Cybersecurity</h3>
-          <p>Build security tools like password analyzers, phishing detectors, or secure login systems.</p>
-        </div>
-
-        <div class="track">
-          <div class="icon">📊</div>
-          <h3>Data Analytics</h3>
-          <p>Analyze data, visualize insights, and build decision-support systems.</p>
-        </div>
-
-        <div class="track">
-          <div class="icon">💡</div>
-          <h3>Open Innovation</h3>
-          <p>Bring any impactful idea — must be useful, unique, and demonstrate a working solution.</p>
-        </div>
+        <div class="countBadge" id="ideaCount">10 Ideas</div>
       </div>
+
+      <div class="grid auto" id="ideaGrid" style="margin-top:14px;">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <p class="hint" style="margin-top:12px;">
+        ⭐ Tip: Teams can choose any one idea OR build their own Open Innovation project.
+      </p>
     </section>
 
-    <!-- Rules & Schedule -->
+    <!-- Rules -->
     <section id="rules">
       <div class="sectionTitle">
         <div>
@@ -777,19 +820,19 @@
           <h3 style="margin:0 0 10px;">📌 Team Rules</h3>
           <ul class="clean">
             <li>Team size must be <b>2–4 members</b>.</li>
-            <li>Only <b>Computer Science Department</b> students are allowed.</li>
-            <li>Cross-year teams are allowed (optional).</li>
+            <li>Only <b>CS Department students</b> are allowed.</li>
             <li>Each participant can join only <b>one team</b>.</li>
             <li>One team leader should handle submissions.</li>
+            <li>Teams must follow discipline inside campus.</li>
           </ul>
         </div>
 
         <div class="panel">
           <h3 style="margin:0 0 10px;">⚠️ Hackathon Rules</h3>
           <ul class="clean">
-            <li>Project must be built during the hackathon time.</li>
-            <li>Using templates is allowed, but core work must be done live.</li>
-            <li>Plagiarism / copying full projects leads to disqualification.</li>
+            <li>Project must be built during hackathon time.</li>
+            <li>Using templates is allowed, but main work must be done live.</li>
+            <li>Copying full projects from internet is not allowed.</li>
             <li>Final demo time: <b>3–5 minutes</b> per team.</li>
             <li>Judges’ decision will be final.</li>
           </ul>
@@ -797,6 +840,7 @@
       </div>
     </section>
 
+    <!-- Schedule -->
     <section id="schedule">
       <div class="sectionTitle">
         <div>
@@ -810,31 +854,76 @@
           <div class="icon">🎤</div>
           <h3>9:00 AM – 9:30 AM</h3>
           <p>Inauguration + Welcome + Rules Explanation</p>
+          <div class="tagRow"><span class="tag">Opening</span><span class="tag">Instructions</span></div>
         </div>
+
         <div class="track">
           <div class="icon">🧠</div>
           <h3>9:30 AM – 10:00 AM</h3>
           <p>Team Setup + Idea Finalization + Track Selection</p>
+          <div class="tagRow"><span class="tag">Team</span><span class="tag">Plan</span></div>
         </div>
+
         <div class="track">
           <div class="icon">💻</div>
           <h3>10:00 AM</h3>
           <p>Hackathon Starts (Coding & Building Begins)</p>
+          <div class="tagRow"><span class="tag">Build</span><span class="tag">Code</span></div>
         </div>
+
         <div class="track">
           <div class="icon">📝</div>
           <h3>1:00 PM – 1:30 PM</h3>
           <p>Mid Review (Progress Check by Mentors/Judges)</p>
+          <div class="tagRow"><span class="tag">Review</span><span class="tag">Mentoring</span></div>
         </div>
+
         <div class="track">
           <div class="icon">📦</div>
           <h3>3:30 PM</h3>
           <p>Final Submission Deadline (GitHub / ZIP / Link)</p>
+          <div class="tagRow"><span class="tag">Submit</span><span class="tag">Final</span></div>
         </div>
+
         <div class="track">
           <div class="icon">🏁</div>
           <h3>3:30 PM – 5:30 PM</h3>
           <p>Final Demo + Judging + Winners Announcement</p>
+          <div class="tagRow"><span class="tag">Demo</span><span class="tag">Results</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organizers -->
+    <section id="organizers">
+      <div class="sectionTitle">
+        <div>
+          <h2>Organizing Committee</h2>
+          <p>Official team behind Hackverse.</p>
+        </div>
+      </div>
+
+      <div class="twoCol">
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">🎓 College & Department</h3>
+          <ul class="clean">
+            <li><b>College:</b> St Joseph’s College for Women, Tiruppur</li>
+            <li><b>Department:</b> B.Sc. Computer Science with Data Analytics</li>
+            <li><b>Principal:</b> Dr. S. Sahaya Tamil Selvi</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">👩‍💻 Student Organizers</h3>
+          <ul class="clean">
+            <li><b>Brindha T</b> – Student Organizer</li>
+            <li><b>Bhavani</b> – Student Organizer</li>
+            <li><b>Volunteer Team:</b> (Add Names)</li>
+            <li><b>Faculty Mentor:</b> (Add Name)</li>
+          </ul>
+          <p class="hint" style="margin-top:10px;">
+            Add mentor & volunteer names anytime inside this section.
+          </p>
         </div>
       </div>
     </section>
@@ -851,7 +940,7 @@
       <div class="twoCol">
         <div class="panel">
           <h3 style="margin:0 0 8px;">📝 Registration Form</h3>
-          <p class="hint">This is a demo form. You can connect it later to Google Sheets / Firebase.</p>
+          <p class="hint">Demo form (you can connect to Google Sheets later).</p>
 
           <form id="regForm">
             <div class="row">
@@ -861,7 +950,7 @@
               </div>
               <div>
                 <label>Team Leader Name</label>
-                <input type="text" id="leaderName" placeholder="Eg: Dharshini" required />
+                <input type="text" id="leaderName" placeholder="Eg: Brindha" required />
               </div>
             </div>
 
@@ -870,7 +959,8 @@
                 <label>Department</label>
                 <select id="dept" required>
                   <option value="">Select</option>
-                  <option>Computer Science</option>
+                  <option>B.Sc. Computer Science with Data Analytics</option>
+                  <option>B.Sc. Computer Science</option>
                   <option>BCA</option>
                   <option>MCA</option>
                 </select>
@@ -899,16 +989,8 @@
 
             <div class="row">
               <div>
-                <label>Track / Domain</label>
-                <select id="track" required>
-                  <option value="">Select</option>
-                  <option>Web Development</option>
-                  <option>Mobile App Development</option>
-                  <option>AI / ML</option>
-                  <option>Cybersecurity</option>
-                  <option>Data Analytics</option>
-                  <option>Open Innovation</option>
-                </select>
+                <label>Preferred Problem Idea</label>
+                <select id="ideaSelect" required></select>
               </div>
               <div>
                 <label>Project Title</label>
@@ -918,7 +1000,7 @@
 
             <div>
               <label>Project Idea (Short Description)</label>
-              <textarea id="idea" placeholder="Explain your idea in 2–4 lines..." required></textarea>
+              <textarea id="ideaText" placeholder="Explain your idea in 2–4 lines..." required></textarea>
             </div>
 
             <button class="btn" type="submit">🚀 Submit Registration</button>
@@ -941,7 +1023,7 @@
 
           <h3 style="margin:0 0 10px;">📌 Submission Format</h3>
           <ul class="clean">
-            <li>Project Title + Track</li>
+            <li>Project Title + Domain</li>
             <li>GitHub Link / ZIP File</li>
             <li>Demo Link / APK / Website Link</li>
             <li>Short PPT (Optional)</li>
@@ -949,6 +1031,17 @@
 
           <div style="height:12px"></div>
 
+          <h3 style="margin:0 0 10px;">🎁 Rewards</h3>
+          <ul class="clean">
+            <li>🥇 1st Prize – ₹____</li>
+            <li>🥈 2nd Prize – ₹____</li>
+            <li>🥉 3rd Prize – ₹____</li>
+            <li>🏅 Best UI/UX</li>
+            <li>🏅 Best Innovation</li>
+            <li>🎓 Certificates for all participants</li>
+          </ul>
+
+          <div style="height:12px"></div>
           <a class="btn secondary" href="#home">⬆ Back to Top</a>
         </div>
       </div>
@@ -970,18 +1063,27 @@
             <span class="chev">▾</span>
           </button>
           <div class="faqA">
-            Yes. This event is conducted only for <b>Computer Science Department students</b> at the college.
+            Yes. This event is conducted only for <b>CS Department students</b> in the college.
           </div>
         </div>
 
         <div class="faqItem">
           <button class="faqQ">
-            Can we use templates or old code?
+            Can we choose our own idea?
             <span class="chev">▾</span>
           </button>
           <div class="faqA">
-            Templates are allowed, but the main project work must be done during the hackathon.
-            Copying full projects from the internet is not allowed.
+            Yes. You can pick from the given problem ideas or build your own <b>Open Innovation</b> project.
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ">
+            What should we submit finally?
+            <span class="chev">▾</span>
+          </button>
+          <div class="faqA">
+            Submit your <b>GitHub link / ZIP</b>, demo link (website / APK), and short explanation during final submission.
           </div>
         </div>
 
@@ -994,16 +1096,6 @@
             Yes. A working prototype (at least core features) is important for judging and demo.
           </div>
         </div>
-
-        <div class="faqItem">
-          <button class="faqQ">
-            How will the winners be selected?
-            <span class="chev">▾</span>
-          </button>
-          <div class="faqA">
-            Winners will be selected based on innovation, technical implementation, impact, UI/UX and demo presentation.
-          </div>
-        </div>
       </div>
     </section>
 
@@ -1014,11 +1106,11 @@
   </main>
 
   <!-- Success Modal -->
-  <div class="modal" id="modal">
+  <div class="modal" id="successModal">
     <div class="modalCard">
       <div class="modalHead">
         <h3>Registration Successful 🎉</h3>
-        <button class="close" id="closeModal">✕</button>
+        <button class="close" id="closeSuccess">✕</button>
       </div>
 
       <div class="successIcon">✔</div>
@@ -1032,8 +1124,268 @@
     </div>
   </div>
 
+  <!-- Idea Modal -->
+  <div class="modal" id="ideaModal">
+    <div class="modalCard">
+      <div class="modalHead">
+        <h3 id="ideaModalTitle">Idea Title</h3>
+        <button class="close" id="closeIdea">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <p id="ideaModalDesc">Idea description will appear here.</p>
+
+        <div class="modalGrid">
+          <div class="modalMini" id="ideaModalFeatures"></div>
+          <div class="modalMini" id="ideaModalTech"></div>
+        </div>
+
+        <div style="height:14px"></div>
+        <button class="btn secondary" id="selectIdeaBtn">✅ Select this Idea</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ====== Mobile Menu Toggle ======
+    // ====== Ideas Data ======
+    const IDEAS = [
+      {
+        id: 1,
+        icon: "🧾",
+        title: "Smart Attendance Tracker with QR",
+        desc: "Students scan QR code and attendance is saved automatically with date & time.",
+        features: [
+          "QR scan based attendance",
+          "Daily attendance report",
+          "Duplicate scan prevention",
+          "Export CSV / Excel"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase", "Google Sheets", "QR Generator"]
+      },
+      {
+        id: 2,
+        icon: "📦",
+        title: "Lost & Found Campus Portal",
+        desc: "Upload lost item photo + details so students can easily claim and recover items.",
+        features: [
+          "Post lost/found items",
+          "Photo upload",
+          "Claim verification",
+          "Admin approval"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase Storage", "Firestore"]
+      },
+      {
+        id: 3,
+        icon: "📢",
+        title: "College Event & Club Announcement App",
+        desc: "All department events in one place with reminders and calendar view.",
+        features: [
+          "Event posting",
+          "Push reminders (optional)",
+          "Calendar view",
+          "Club-wise filters"
+        ],
+        tech: ["HTML/CSS/JS", "LocalStorage", "Firebase (optional)"]
+      },
+      {
+        id: 4,
+        icon: "🍔",
+        title: "Canteen Pre-Order & Token System",
+        desc: "Students order food online and receive token to reduce crowd in canteen.",
+        features: [
+          "Menu display",
+          "Pre-order system",
+          "Token generation",
+          "Order status tracking"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase", "QR Token (optional)"]
+      },
+      {
+        id: 5,
+        icon: "🛠️",
+        title: "Campus Complaint & Issue Reporting System",
+        desc: "Report problems like fan/light/toilet issues and track status updates.",
+        features: [
+          "Issue reporting",
+          "Priority tagging",
+          "Status updates (Open/In Progress/Fixed)",
+          "Photo proof upload"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase", "Admin Dashboard"]
+      },
+      {
+        id: 6,
+        icon: "👥",
+        title: "Study Buddy Finder (Same Subject Match)",
+        desc: "Find students studying same topic and create study groups easily.",
+        features: [
+          "Subject matching",
+          "Group creation",
+          "Chat feature (optional)",
+          "Time availability"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase Auth", "Realtime DB"]
+      },
+      {
+        id: 7,
+        icon: "📈",
+        title: "Placement Preparation Planner",
+        desc: "Daily tasks + aptitude tracker + coding progress checklist for placements.",
+        features: [
+          "Daily planner",
+          "Progress tracker",
+          "Streak system",
+          "Mock test reminders"
+        ],
+        tech: ["HTML/CSS/JS", "LocalStorage", "Charts (optional)"]
+      },
+      {
+        id: 8,
+        icon: "🚌",
+        title: "Bus Timing & Live Update System",
+        desc: "Students can check bus timing and live delay updates for college transport.",
+        features: [
+          "Bus schedule list",
+          "Delay update feature",
+          "Route tracking (optional)",
+          "Notification alerts"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase", "Maps API (optional)"]
+      },
+      {
+        id: 9,
+        icon: "🚨",
+        title: "Women Safety Alert App (SOS Button)",
+        desc: "One-click SOS that shares live location to emergency contacts instantly.",
+        features: [
+          "SOS button",
+          "Location sharing",
+          "Emergency contact list",
+          "Call/SMS integration (optional)"
+        ],
+        tech: ["HTML/CSS/JS", "Geolocation API", "Firebase (optional)"]
+      },
+      {
+        id: 10,
+        icon: "📚",
+        title: "Digital Notes Sharing & PDF Organizer",
+        desc: "Upload notes, categorize by subject, and download PDFs easily.",
+        features: [
+          "Upload PDF/notes",
+          "Subject-wise folders",
+          "Search notes",
+          "Download & share"
+        ],
+        tech: ["HTML/CSS/JS", "Firebase Storage", "Firestore"]
+      }
+    ];
+
+    // ====== DOM ======
+    const ideaGrid = document.getElementById("ideaGrid");
+    const ideaCount = document.getElementById("ideaCount");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+
+    const ideaModal = document.getElementById("ideaModal");
+    const ideaModalTitle = document.getElementById("ideaModalTitle");
+    const ideaModalDesc = document.getElementById("ideaModalDesc");
+    const ideaModalFeatures = document.getElementById("ideaModalFeatures");
+    const ideaModalTech = document.getElementById("ideaModalTech");
+    const closeIdea = document.getElementById("closeIdea");
+    const selectIdeaBtn = document.getElementById("selectIdeaBtn");
+
+    const ideaSelect = document.getElementById("ideaSelect");
+    const ideaText = document.getElementById("ideaText");
+
+    let selectedIdeaTitle = "";
+
+    // ====== Render Ideas ======
+    function renderIdeas(list){
+      ideaGrid.innerHTML = "";
+      ideaCount.textContent = `${list.length} Ideas`;
+
+      list.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "track";
+        card.innerHTML = `
+          <div class="icon">${item.icon}</div>
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+          <div class="tagRow">
+            <span class="tag">Click to View</span>
+            <span class="tag">Prototype</span>
+          </div>
+        `;
+        card.addEventListener("click", () => openIdeaModal(item));
+        ideaGrid.appendChild(card);
+      });
+    }
+
+    function openIdeaModal(item){
+      selectedIdeaTitle = item.title;
+      ideaModalTitle.textContent = item.title;
+      ideaModalDesc.textContent = item.desc;
+
+      ideaModalFeatures.innerHTML = `
+        <b>✨ Key Features</b><br>
+        ${item.features.map(f => `• ${f}`).join("<br>")}
+      `;
+
+      ideaModalTech.innerHTML = `
+        <b>🧠 Suggested Tech Stack</b><br>
+        ${item.tech.map(t => `• ${t}`).join("<br>")}
+      `;
+
+      ideaModal.classList.add("open");
+    }
+
+    function closeIdeaModal(){
+      ideaModal.classList.remove("open");
+    }
+
+    closeIdea.addEventListener("click", closeIdeaModal);
+    ideaModal.addEventListener("click", (e) => {
+      if(e.target === ideaModal) closeIdeaModal();
+    });
+
+    selectIdeaBtn.addEventListener("click", () => {
+      if(selectedIdeaTitle){
+        ideaSelect.value = selectedIdeaTitle;
+        ideaText.value = `We are building: ${selectedIdeaTitle}\n\nOur solution: `;
+        closeIdeaModal();
+        window.location.hash = "#register";
+      }
+    });
+
+    // ====== Populate Select ======
+    function populateIdeaSelect(){
+      ideaSelect.innerHTML = `<option value="">Select</option>`;
+      IDEAS.forEach(i => {
+        const opt = document.createElement("option");
+        opt.value = i.title;
+        opt.textContent = i.title;
+        ideaSelect.appendChild(opt);
+      });
+    }
+
+    // ====== Search ======
+    function filterIdeas(){
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = IDEAS.filter(i =>
+        i.title.toLowerCase().includes(q) ||
+        i.desc.toLowerCase().includes(q)
+      );
+      renderIdeas(filtered);
+    }
+
+    searchInput.addEventListener("input", filterIdeas);
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      renderIdeas(IDEAS);
+    });
+
+    // ====== Mobile Menu ======
     const menuBtn = document.getElementById("menuBtn");
     const mobileNav = document.getElementById("mobileNav");
 
@@ -1042,7 +1394,6 @@
       menuBtn.textContent = mobileNav.classList.contains("open") ? "✕" : "☰";
     });
 
-    // Close menu on click link
     mobileNav.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         mobileNav.classList.remove("open");
@@ -1050,9 +1401,8 @@
       });
     });
 
-    // ====== Active Nav on Scroll ======
+    // ====== Active Nav ======
     const navLinks = document.querySelectorAll("#nav a");
-
     const setActive = () => {
       let current = "home";
       document.querySelectorAll("main section").forEach(sec => {
@@ -1066,10 +1416,9 @@
     };
     window.addEventListener("scroll", setActive);
 
-    // ====== Countdown Timer (EDIT DATE HERE) ======
-    const EVENT_DATE = "2026-02-10T09:00:00"; // Change this
-    const eventDateText = document.getElementById("eventDateText");
-    eventDateText.textContent = EVENT_DATE.split("T")[0];
+    // ====== Countdown Timer ======
+    const EVENT_DATE = "2026-02-10T09:00:00"; // CHANGE THIS
+    document.getElementById("eventDateText").textContent = EVENT_DATE.split("T")[0];
 
     const dd = document.getElementById("dd");
     const hh = document.getElementById("hh");
@@ -1117,25 +1466,23 @@
     // ====== FAQ Accordion ======
     document.querySelectorAll(".faqItem").forEach(item => {
       const btn = item.querySelector(".faqQ");
-      btn.addEventListener("click", () => {
-        item.classList.toggle("open");
-      });
+      btn.addEventListener("click", () => item.classList.toggle("open"));
     });
 
-    // ====== Registration Form Validation + Modal ======
+    // ====== Registration Modal ======
     const regForm = document.getElementById("regForm");
-    const modal = document.getElementById("modal");
-    const closeModal = document.getElementById("closeModal");
+    const successModal = document.getElementById("successModal");
+    const closeSuccess = document.getElementById("closeSuccess");
     const goHome = document.getElementById("goHome");
 
-    function openModal(){ modal.classList.add("open"); }
-    function hideModal(){ modal.classList.remove("open"); }
+    function openSuccess(){ successModal.classList.add("open"); }
+    function hideSuccess(){ successModal.classList.remove("open"); }
 
-    closeModal.addEventListener("click", hideModal);
-    goHome.addEventListener("click", hideModal);
+    closeSuccess.addEventListener("click", hideSuccess);
+    goHome.addEventListener("click", hideSuccess);
 
-    modal.addEventListener("click", (e) => {
-      if(e.target === modal) hideModal();
+    successModal.addEventListener("click", (e) => {
+      if(e.target === successModal) hideSuccess();
     });
 
     regForm.addEventListener("submit", (e) => {
@@ -1143,20 +1490,28 @@
 
       const phone = document.getElementById("phone").value.trim();
       const email = document.getElementById("email").value.trim();
+      const ideaChosen = ideaSelect.value.trim();
 
       if(!/^\d{10}$/.test(phone)){
         alert("Please enter a valid 10-digit phone number.");
         return;
       }
-
       if(!email.includes("@")){
         alert("Please enter a valid email address.");
         return;
       }
+      if(!ideaChosen){
+        alert("Please select a problem idea.");
+        return;
+      }
 
-      openModal();
+      openSuccess();
       regForm.reset();
     });
+
+    // ====== Init ======
+    populateIdeaSelect();
+    renderIdeas(IDEAS);
   </script>
 </body>
 </html>
