@@ -1,28 +1,1406 @@
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
-    const data = JSON.parse(e.postData.contents);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HACKVERSE : Build Beyond Limits | St Joseph’s College for Women, Tiruppur</title>
+  <meta name="description" content="Hackverse : Build Beyond Limits - In-Campus Hackathon at St Joseph’s College for Women, Tiruppur." />
 
-    sheet.appendRow([
-      data.teamName,
-      data.leaderName,
-      data.dept,
-      data.teamSize,
-      data.email,
-      data.phone,
-      data.topic,
-      data.projectTitle,
-      data.description,
-      data.submittedAt
-    ]);
+  <style>
+    :root{
+      --bg:#070814;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --accent:#ff2d55;
+      --accent2:#7c3aed;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 26px;
+    }
 
-    return ContentService
-      .createTextOutput(JSON.stringify({status:"success"}))
-      .setMimeType(ContentService.MimeType.JSON);
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(900px 600px at 10% 10%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(255,45,85,.28), transparent 60%),
+        radial-gradient(900px 600px at 50% 90%, rgba(34,197,94,.20), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
 
-  } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({status:"error", message: err.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
+    /* ====== Topbar ====== */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background: rgba(10,10,20,.65);
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .topbar .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:220px;
+    }
+
+    .collegeLogo{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      object-fit:cover;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      flex:0 0 auto;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:14px;
+      line-height:1.15;
+      letter-spacing:.2px;
+    }
+    .brand p{
+      margin:2px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.25;
+    }
+
+    nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:rgba(255,255,255,.78);
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      transition:.25s ease;
+      white-space:nowrap;
+    }
+    nav a:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+      color:rgba(255,255,255,.95);
+    }
+    nav a.active{
+      background: rgba(255,45,85,.14);
+      border-color: rgba(255,45,85,.28);
+      color: rgba(255,255,255,.98);
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:11px 14px;
+      border-radius:14px;
+      font-weight:800;
+      letter-spacing:.2px;
+      transition:.25s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      color:white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 18px 40px rgba(255,45,85,.18);
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); filter:saturate(1.08); }
+    .btn:active{ transform: translateY(0px); }
+
+    .btn.secondary{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:none;
+      color:rgba(255,255,255,.92);
+    }
+    .btn.secondary:hover{ background: rgba(255,255,255,.10); }
+
+    /* ====== Mobile Menu ====== */
+    .menuBtn{
+      display:none;
+      border:none;
+      cursor:pointer;
+      width:42px;height:42px;
+      border-radius:14px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.92);
+      font-size:18px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .mobileNav{
+      display:none;
+      padding:0 18px 14px;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    .mobileNav.open{ display:block; }
+
+    .mobileNav .navBox{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding:12px;
+      display:grid;
+      gap:8px;
+    }
+    .mobileNav a{
+      text-decoration:none;
+      color:rgba(255,255,255,.86);
+      padding:12px 12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight:800;
+      font-size:13px;
+    }
+
+    /* ====== Layout ====== */
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:28px 18px 60px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:22px;
+      align-items:stretch;
+      margin-top:14px;
+    }
+
+    .card{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .heroLeft{
+      padding:28px;
+      min-height: 360px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.85);
+      font-size:12px;
+      width:fit-content;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(255,45,85,.15);
+    }
+
+    .title{
+      margin:14px 0 8px;
+      font-size:clamp(28px, 4vw, 46px);
+      line-height:1.05;
+      letter-spacing:-.6px;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      max-width: 62ch;
+    }
+
+    .heroActions{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .infoRow{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .mini{
+      background: var(--card2);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding:14px;
+    }
+    .mini h4{
+      margin:0 0 6px;
+      font-size:12px;
+      color:rgba(255,255,255,.72);
+      font-weight:800;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+    }
+    .mini p{
+      margin:0;
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+
+    .heroRight{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .countBox{
+      padding:18px;
+      border-radius: var(--radius2);
+      background:
+        radial-gradient(120px 120px at 20% 20%, rgba(255,45,85,.35), transparent 65%),
+        radial-gradient(140px 140px at 80% 30%, rgba(124,58,237,.35), transparent 65%),
+        rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .countBox h3{
+      margin:0 0 10px;
+      font-size:14px;
+      color:rgba(255,255,255,.78);
+    }
+    .timer{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+    }
+    .t{
+      text-align:center;
+      padding:12px 10px;
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .t strong{
+      display:block;
+      font-size:clamp(18px, 2.4vw, 22px);
+      letter-spacing:.5px;
+    }
+    .t span{
+      font-size:11px;
+      color:rgba(255,255,255,.65);
+      text-transform:uppercase;
+      letter-spacing:.8px;
+    }
+
+    .quick{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+
+    .pill{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .pill b{ font-size:13px; }
+    .pill small{ color:var(--muted); display:block; margin-top:4px; line-height:1.35; }
+
+    /* ====== Sections ====== */
+    section{ margin-top:24px; }
+
+    .sectionTitle{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin:18px 0 10px;
+      flex-wrap:wrap;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.2px;
+    }
+    .sectionTitle p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .grid.auto{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap:14px;
+    }
+
+    .track{
+      padding:18px;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+    }
+    .track:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+    }
+    .track .icon{
+      width:44px;height:44px;border-radius:16px;
+      display:grid;place-items:center;
+      background: rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.12);
+      margin-bottom:12px;
+      font-size:18px;
+    }
+    .track h3{ margin:0 0 6px; font-size:16px; }
+    .track p{ margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
+
+    .tagRow{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      font-size:11px;
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      color:rgba(255,255,255,.78);
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+
+    ul.clean{
+      margin:0;
+      padding-left:18px;
+      color:rgba(255,255,255,.85);
+      line-height:1.7;
+      font-size:13px;
+    }
+    ul.clean li{ margin:6px 0; color:rgba(255,255,255,.82); }
+
+    .panel{
+      padding:18px;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    /* ====== Search ====== */
+    .searchBar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin:12px 0 0;
+    }
+    .searchWrap{
+      flex:1;
+      min-width: 240px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .searchWrap input{ flex:1; }
+    .countBadge{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.78);
+      font-weight:800;
+    }
+
+    /* ====== Form ====== */
+    form{ display:grid; gap:12px; }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    label{
+      font-size:12px;
+      color:rgba(255,255,255,.72);
+      display:block;
+      margin:0 0 6px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    input, select, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color:rgba(255,255,255,.92);
+      outline:none;
+      transition:.2s ease;
+      font-size:13px;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(255,45,85,.45);
+      box-shadow: 0 0 0 4px rgba(255,45,85,.12);
+    }
+    textarea{ min-height: 90px; resize: vertical; }
+
+    /* ====== Notice Box ====== */
+    .notice{
+      padding:14px 16px;
+      border-radius: 18px;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.25);
+      color: rgba(255,255,255,.9);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .notice b{ color: rgba(255,255,255,.98); }
+
+    /* ====== FAQ ====== */
+    .faqItem{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius2);
+      overflow:hidden;
+    }
+    .faqQ{
+      width:100%;
+      text-align:left;
+      padding:14px 16px;
+      background: transparent;
+      border:none;
+      color:rgba(255,255,255,.92);
+      font-weight:900;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-size:14px;
+    }
+    .faqA{
+      padding:0 16px 14px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+      display:none;
+    }
+    .faqItem.open .faqA{ display:block; }
+    .chev{ transition:.2s ease; opacity:.8; }
+    .faqItem.open .chev{ transform: rotate(180deg); }
+
+    /* ====== Footer ====== */
+    footer{
+      margin-top:26px;
+      padding:18px;
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:rgba(255,255,255,.75);
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    /* ====== Modal ====== */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      z-index:100;
+      padding:18px;
+    }
+    .modal.open{ display:grid; }
+    .modalCard{
+      width:min(640px, 100%);
+      border-radius: 24px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(18,18,30,.72);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      padding:18px;
+    }
+    .modalHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .modalHead h3{ margin:0; font-size:18px; }
+    .close{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.88);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    .modalBody p{
+      margin:8px 0 0;
+      color:rgba(255,255,255,.82);
+      line-height:1.6;
+      font-size:13px;
+    }
+    .modalGrid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .modalMini{
+      padding:12px;
+      border-radius:16px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.86);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .infoRow{ grid-template-columns: 1fr; }
+      .twoCol{ grid-template-columns: 1fr; }
+      .row{ grid-template-columns: 1fr; }
+      nav{ display:none; }
+      .menuBtn{ display:flex; }
+      .brand{ min-width:auto; }
+      .btn{ padding:10px 12px; }
+    }
+
+    @media (max-width: 420px){
+      .heroLeft{ padding:18px; }
+      .heroRight{ padding:14px; }
+      .timer{ grid-template-columns: repeat(2, 1fr); }
+      .modalGrid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <img
+          class="collegeLogo"
+          src="https://stjosephcollegetup.edu.in/Content/Images/logo.png"
+          alt="St Joseph’s College for Women, Tiruppur Logo"
+          onerror="this.onerror=null; this.src='https://stjosephcollegetup.edu.in/Content/images/logo.png';"
+        />
+        <div>
+          <h1>St Joseph’s College for Women, Tiruppur</h1>
+          <p><b>In-Campus Hackathon</b> • Only College Participants</p>
+          <p><b>Secretary:</b> Rev. Sr. Dr. Arulseeli</p>
+        </div>
+      </div>
+
+      <nav id="nav">
+        <a href="#home" class="active">Home</a>
+        <a href="#projects">Topics</a>
+        <a href="#rules">Rules</a>
+        <a href="#organizers">Organizers</a>
+        <a href="#register">Register</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <button class="menuBtn" id="menuBtn" aria-label="Open Menu">☰</button>
+      <a class="btn" href="#register" title="Register Now">🚀 Register</a>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="mobileNav" id="mobileNav">
+      <div class="navBox">
+        <a href="#home">🏠 Home</a>
+        <a href="#projects">💡 Topics</a>
+        <a href="#rules">📌 Rules</a>
+        <a href="#organizers">👩‍💻 Organizers</a>
+        <a href="#register">📝 Register</a>
+        <a href="#faq">❓ FAQ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="home">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="card heroLeft">
+        <div class="badge">
+          <span class="dot"></span>
+          <span>HACKVERSE : Build Beyond Limits • Jan 30 • 3 Hours</span>
+        </div>
+
+        <h2 class="title">HACKVERSE : <br/>Build Beyond Limits</h2>
+
+        <p class="subtitle">
+          Organized by <b>Department of Computer Science with Data Analytics</b> at
+          <b>St Joseph’s College for Women, Tiruppur</b>.
+          Participants will solve <b>one topic</b> from the given list + <b>1 On-Spot Topic</b>.
+        </p>
+
+        <div class="heroActions">
+          <a class="btn" href="#register">✨ Register Now</a>
+          <a class="btn secondary" href="#projects">💡 View Topics</a>
+          <button class="btn secondary" id="copyLinkBtn">🔗 Copy Link</button>
+        </div>
+
+        <div class="infoRow">
+          <div class="mini">
+            <h4>Date</h4>
+            <p>Jan 30</p>
+          </div>
+          <div class="mini">
+            <h4>Duration</h4>
+            <p>3 Hours</p>
+          </div>
+          <div class="mini">
+            <h4>Team Size</h4>
+            <p>2 – 4 Students</p>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+        <div class="notice">
+          🚫 <b>AI Tools are strictly NOT allowed.</b><br>
+          If any team uses AI tools, they will be <b>DISQUALIFIED</b>.
+        </div>
+      </div>
+
+      <div class="card heroRight">
+        <div class="countBox">
+          <h3>⏳ Countdown to Hackverse (Jan 30)</h3>
+          <div class="timer" id="timer">
+            <div class="t"><strong id="dd">00</strong><span>Days</span></div>
+            <div class="t"><strong id="hh">00</strong><span>Hours</span></div>
+            <div class="t"><strong id="mm">00</strong><span>Mins</span></div>
+            <div class="t"><strong id="ss">00</strong><span>Secs</span></div>
+          </div>
+          <p class="hint" style="margin-top:10px;">
+            Winners will be announced on <b>Feb 2</b> and participants will receive <b>E-Certificates</b>.
+          </p>
+        </div>
+
+        <div class="quick">
+          <div class="pill">
+            <div>
+              <b>🎯 Eligible Departments</b>
+              <small>B.Com CA • BCA • B.Sc CS • AI/ML • B.Sc CS (Data Analytics)</small>
+            </div>
+            <span>✔</span>
+          </div>
+
+          <div class="pill">
+            <div>
+              <b>💻 Laptop Mandatory</b>
+              <small>Students must bring their own laptop for participation.</small>
+            </div>
+            <span>💻</span>
+          </div>
+
+          <div class="pill">
+            <div>
+              <b>🏫 In-Campus Only</b>
+              <small>No outside participants are allowed.</small>
+            </div>
+            <span>🏫</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topics -->
+    <section id="projects">
+      <div class="sectionTitle">
+        <div>
+          <h2>Hackathon Topics (10 + 1 On-Spot Topic)</h2>
+          <p>Teams must solve the problem in the selected topic only.</p>
+        </div>
+      </div>
+
+      <div class="searchBar">
+        <div class="searchWrap">
+          <input id="searchInput" type="text" placeholder="Search topics... (attendance, bus, safety, notes...)" />
+          <button class="btn secondary" id="clearSearchBtn">✖ Clear</button>
+        </div>
+        <div class="countBadge" id="topicCount">10 Topics</div>
+      </div>
+
+      <div class="grid auto" id="topicGrid" style="margin-top:14px;"></div>
+
+      <div style="height:12px"></div>
+      <div class="panel">
+        <h3 style="margin:0 0 8px;">🎯 On-Spot Topic</h3>
+        <p style="margin:0; color:rgba(255,255,255,.80); line-height:1.6; font-size:13px;">
+          One topic will be given <b>on the spot</b> during the hackathon.
+          Teams should solve the problem based on the topic they choose.
+        </p>
+      </div>
+    </section>
+
+    <!-- Rules -->
+    <section id="rules">
+      <div class="sectionTitle">
+        <div>
+          <h2>Rules & Regulations</h2>
+          <p>Please read carefully before registering.</p>
+        </div>
+      </div>
+
+      <div class="twoCol">
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">📌 Participation Rules</h3>
+          <ul class="clean">
+            <li>Only <b>in-campus students</b> can participate.</li>
+            <li>Outside participants are <b>not allowed</b>.</li>
+            <li>Team size: <b>2 to 4 students</b> per team.</li>
+            <li>Students must bring their <b>own laptop</b>.</li>
+            <li>Participants must select <b>one topic</b> and work on it.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">🚫 Strict Rules</h3>
+          <ul class="clean">
+            <li><b>AI tools are strictly not allowed.</b></li>
+            <li>Using AI tools will lead to <b>disqualification</b>.</li>
+            <li>Teams must build within the <b>3-hour hackathon</b>.</li>
+            <li>Plagiarism/copying complete projects is not allowed.</li>
+            <li>Judges decision will be final.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organizers -->
+    <section id="organizers">
+      <div class="sectionTitle">
+        <div>
+          <h2>Organizing Committee</h2>
+          <p>Official team behind Hackverse.</p>
+        </div>
+      </div>
+
+      <div class="twoCol">
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">🎓 College Authorities</h3>
+          <ul class="clean">
+            <li><b>Secretary:</b> Rev. Sr. Dr. Arulseeli</li>
+            <li><b>HOD:</b> C. Kavitha (Computer Science with Data Analytics)</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">👩‍💻 Student Organizers</h3>
+          <ul class="clean">
+            <li><b>Brindha T</b> – Student Organizer</li>
+            <li><b>Bhavani</b> – Student Organizer</li>
+            <li><b>Volunteer Team:</b> (Add Names)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Register -->
+    <section id="register">
+      <div class="sectionTitle">
+        <div>
+          <h2>Register Your Team</h2>
+          <p>Registration details will be stored in Google Sheets.</p>
+        </div>
+      </div>
+
+      <div class="twoCol">
+        <div class="panel">
+          <h3 style="margin:0 0 8px;">📝 Registration Form</h3>
+          <p class="hint">After submission, your details will be saved in Google Sheet.</p>
+
+          <form id="regForm">
+            <div class="row">
+              <div>
+                <label>Team Name</label>
+                <input type="text" id="teamName" placeholder="Eg: Code Queens" required />
+              </div>
+              <div>
+                <label>Team Leader Name</label>
+                <input type="text" id="leaderName" placeholder="Eg: Brindha" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label>Department</label>
+                <select id="dept" required>
+                  <option value="">Select</option>
+                  <option>B.Com CA</option>
+                  <option>BCA</option>
+                  <option>B.Sc CS</option>
+                  <option>AI / ML</option>
+                  <option>B.Sc Computer Science with Data Analytics</option>
+                </select>
+              </div>
+              <div>
+                <label>Team Size</label>
+                <select id="teamSize" required>
+                  <option value="">Select</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label>Email</label>
+                <input type="email" id="email" placeholder="team@email.com" required />
+              </div>
+              <div>
+                <label>Phone Number</label>
+                <input type="tel" id="phone" placeholder="10-digit mobile number" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label>Select Topic</label>
+                <select id="topicSelect" required></select>
+              </div>
+              <div>
+                <label>Project Title</label>
+                <input type="text" id="projectTitle" placeholder="Eg: Smart Campus System" required />
+              </div>
+            </div>
+
+            <div>
+              <label>Short Description</label>
+              <textarea id="desc" placeholder="Explain your solution in 2–4 lines..." required></textarea>
+            </div>
+
+            <button class="btn" type="submit">🚀 Submit Registration</button>
+            <p class="hint">
+              By registering, you accept the hackathon rules including <b>NO AI tools</b>.
+            </p>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin:0 0 10px;">🏆 Results & Certificates</h3>
+          <ul class="clean">
+            <li>Winners will be announced on <b>Feb 2</b>.</li>
+            <li>All participants will receive <b>E-Certificates</b>.</li>
+            <li>Top teams will be selected by judges based on prototype + presentation.</li>
+          </ul>
+
+          <div style="height:12px"></div>
+          <h3 style="margin:0 0 10px;">📌 Submission Reminder</h3>
+          <ul class="clean">
+            <li>Bring your laptop fully charged.</li>
+            <li>Keep your code & files organized.</li>
+            <li>Prepare a short demo explanation.</li>
+          </ul>
+
+          <div style="height:12px"></div>
+          <a class="btn secondary" href="#home">⬆ Back to Top</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sectionTitle">
+        <div>
+          <h2>FAQ</h2>
+          <p>Common questions.</p>
+        </div>
+      </div>
+
+      <div class="twoCol">
+        <div class="faqItem">
+          <button class="faqQ">
+            Can outside students participate?
+            <span class="chev">▾</span>
+          </button>
+          <div class="faqA">
+            No. This is an <b>in-campus hackathon</b>. Outside participants are not allowed.
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ">
+            Can we use AI tools like ChatGPT?
+            <span class="chev">▾</span>
+          </button>
+          <div class="faqA">
+            No. <b>AI tools are strictly prohibited</b>. If used, the team will be <b>disqualified</b>.
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ">
+            What is the team size?
+            <span class="chev">▾</span>
+          </button>
+          <div class="faqA">
+            Team size should be <b>2 to 4 students</b> per team.
+          </div>
+        </div>
+
+        <div class="faqItem">
+          <button class="faqQ">
+            When will winners be announced?
+            <span class="chev">▾</span>
+          </button>
+          <div class="faqA">
+            Winners will be announced on <b>Feb 2</b>. All participants will receive <b>E-Certificates</b>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div><b>HACKVERSE : Build Beyond Limits</b> • St Joseph’s College for Women, Tiruppur</div>
+      <div>Made with ❤️ using HTML • CSS • JavaScript</div>
+    </footer>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal" id="successModal">
+    <div class="modalCard">
+      <div class="modalHead">
+        <h3>Registration Submitted 🎉</h3>
+        <button class="close" id="closeSuccess">✕</button>
+      </div>
+      <p style="margin:0; color:rgba(255,255,255,.82); line-height:1.6;">
+        Your registration is saved successfully. Winners will be announced on <b>Feb 2</b>.
+      </p>
+      <div style="height:14px"></div>
+      <a class="btn" href="#home" id="goHome">🏠 Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Topic Modal -->
+  <div class="modal" id="topicModal">
+    <div class="modalCard">
+      <div class="modalHead">
+        <h3 id="topicModalTitle">Topic Title</h3>
+        <button class="close" id="closeTopic">✕</button>
+      </div>
+      <div class="modalBody">
+        <p id="topicModalDesc">Topic description will appear here.</p>
+
+        <div class="modalGrid">
+          <div class="modalMini" id="topicModalFeatures"></div>
+          <div class="modalMini" id="topicModalTech"></div>
+        </div>
+
+        <div style="height:14px"></div>
+        <button class="btn secondary" id="selectTopicBtn">✅ Select this Topic</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===============================
+    // IMPORTANT: GOOGLE SHEET SETUP
+    // ===============================
+    // You cannot directly paste a "Google Sheet link" and save data automatically.
+    // You must create a Google Apps Script Web App URL (API endpoint).
+    //
+    // After creating it, paste the URL below:
+    const GOOGLE_APPS_SCRIPT_WEBAPP_URL = "PASTE_YOUR_WEBAPP_URL_HERE";
+
+    // ====== Topics Data ======
+    const TOPICS = [
+      {
+        id: 1,
+        icon: "🧾",
+        title: "Smart Attendance Tracker with QR",
+        desc: "Students scan QR code and attendance is saved automatically with date & time.",
+        features: ["QR scan attendance", "Daily report", "Duplicate prevention", "Export CSV"],
+        tech: ["HTML/CSS/JS", "Google Sheets", "QR Generator"]
+      },
+      {
+        id: 2,
+        icon: "📦",
+        title: "Lost & Found Campus Portal",
+        desc: "Upload lost item photo + details so students can easily claim and recover items.",
+        features: ["Post lost/found items", "Photo upload", "Claim verification", "Admin approval"],
+        tech: ["HTML/CSS/JS", "Firebase (optional)", "LocalStorage"]
+      },
+      {
+        id: 3,
+        icon: "📢",
+        title: "College Event & Club Announcement App",
+        desc: "All department events in one place with reminders and calendar view.",
+        features: ["Event posting", "Reminders", "Calendar view", "Filters"],
+        tech: ["HTML/CSS/JS", "LocalStorage"]
+      },
+      {
+        id: 4,
+        icon: "🍔",
+        title: "Canteen Pre-Order & Token System",
+        desc: "Students order food online and receive token to reduce crowd in canteen.",
+        features: ["Menu display", "Pre-order", "Token generation", "Order status"],
+        tech: ["HTML/CSS/JS", "Google Sheets (optional)"]
+      },
+      {
+        id: 5,
+        icon: "🛠️",
+        title: "Campus Complaint & Issue Reporting System",
+        desc: "Report issues like fan/light/toilet problems and track status updates.",
+        features: ["Report issue", "Priority tag", "Status tracking", "Photo proof"],
+        tech: ["HTML/CSS/JS", "Google Sheets"]
+      },
+      {
+        id: 6,
+        icon: "👥",
+        title: "Study Buddy Finder (Same Subject Match)",
+        desc: "Find students studying same topic and create study groups easily.",
+        features: ["Match by subject", "Group creation", "Availability", "Chat optional"],
+        tech: ["HTML/CSS/JS", "Firebase optional"]
+      },
+      {
+        id: 7,
+        icon: "📈",
+        title: "Placement Preparation Planner",
+        desc: "Daily tasks + aptitude tracker + coding progress checklist for placements.",
+        features: ["Daily plan", "Progress tracker", "Checklist", "Streak system"],
+        tech: ["HTML/CSS/JS", "LocalStorage"]
+      },
+      {
+        id: 8,
+        icon: "🚌",
+        title: "Bus Timing & Live Update System",
+        desc: "Students can check bus timing and live delay updates for college transport.",
+        features: ["Schedule list", "Delay updates", "Routes", "Alerts optional"],
+        tech: ["HTML/CSS/JS", "Google Sheets"]
+      },
+      {
+        id: 9,
+        icon: "🚨",
+        title: "Women Safety Alert App (SOS Button)",
+        desc: "One-click SOS that shares live location to emergency contacts instantly.",
+        features: ["SOS button", "Location sharing", "Emergency contacts", "Quick actions"],
+        tech: ["HTML/CSS/JS", "Geolocation API"]
+      },
+      {
+        id: 10,
+        icon: "📚",
+        title: "Digital Notes Sharing & PDF Organizer",
+        desc: "Upload notes, categorize by subject, and download PDFs easily.",
+        features: ["Upload notes", "Subject folders", "Search notes", "Download"],
+        tech: ["HTML/CSS/JS", "Google Drive link optional"]
+      }
+    ];
+
+    // ====== DOM ======
+    const topicGrid = document.getElementById("topicGrid");
+    const topicCount = document.getElementById("topicCount");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+
+    const topicModal = document.getElementById("topicModal");
+    const topicModalTitle = document.getElementById("topicModalTitle");
+    const topicModalDesc = document.getElementById("topicModalDesc");
+    const topicModalFeatures = document.getElementById("topicModalFeatures");
+    const topicModalTech = document.getElementById("topicModalTech");
+    const closeTopic = document.getElementById("closeTopic");
+    const selectTopicBtn = document.getElementById("selectTopicBtn");
+
+    const topicSelect = document.getElementById("topicSelect");
+    const descBox = document.getElementById("desc");
+
+    let selectedTopicTitle = "";
+
+    // ====== Render Topics ======
+    function renderTopics(list){
+      topicGrid.innerHTML = "";
+      topicCount.textContent = `${list.length} Topics`;
+
+      list.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "track";
+        card.innerHTML = `
+          <div class="icon">${item.icon}</div>
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+          <div class="tagRow">
+            <span class="tag">Click to View</span>
+            <span class="tag">Build in 3 Hours</span>
+          </div>
+        `;
+        card.addEventListener("click", () => openTopicModal(item));
+        topicGrid.appendChild(card);
+      });
+    }
+
+    function openTopicModal(item){
+      selectedTopicTitle = item.title;
+      topicModalTitle.textContent = item.title;
+      topicModalDesc.textContent = item.desc;
+
+      topicModalFeatures.innerHTML = `
+        <b>✨ Key Features</b><br>
+        ${item.features.map(f => `• ${f}`).join("<br>")}
+      `;
+
+      topicModalTech.innerHTML = `
+        <b>🧠 Suggested Tech Stack</b><br>
+        ${item.tech.map(t => `• ${t}`).join("<br>")}
+      `;
+
+      topicModal.classList.add("open");
+    }
+
+    function closeTopicModal(){
+      topicModal.classList.remove("open");
+    }
+
+    closeTopic.addEventListener("click", closeTopicModal);
+    topicModal.addEventListener("click", (e) => {
+      if(e.target === topicModal) closeTopicModal();
+    });
+
+    selectTopicBtn.addEventListener("click", () => {
+      if(selectedTopicTitle){
+        topicSelect.value = selectedTopicTitle;
+        descBox.value = `Selected Topic: ${selectedTopicTitle}\n\nOur solution: `;
+        closeTopicModal();
+        window.location.hash = "#register";
+      }
+    });
+
+    // ====== Populate Select ======
+    function populateTopicSelect(){
+      topicSelect.innerHTML = `<option value="">Select</option>`;
+      TOPICS.forEach(i => {
+        const opt = document.createElement("option");
+        opt.value = i.title;
+        opt.textContent = i.title;
+        topicSelect.appendChild(opt);
+      });
+    }
+
+    // ====== Search ======
+    function filterTopics(){
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = TOPICS.filter(i =>
+        i.title.toLowerCase().includes(q) ||
+        i.desc.toLowerCase().includes(q)
+      );
+      renderTopics(filtered);
+    }
+
+    searchInput.addEventListener("input", filterTopics);
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      renderTopics(TOPICS);
+    });
+
+    // ====== Mobile Menu ======
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileNav = document.getElementById("mobileNav");
+
+    menuBtn.addEventListener("click", () => {
+      mobileNav.classList.toggle("open");
+      menuBtn.textContent = mobileNav.classList.contains("open") ? "✕" : "☰";
+    });
+
+    mobileNav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileNav.classList.remove("open");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+    // ====== Countdown Timer (Jan 30) ======
+    // Change year if needed
+    const EVENT_DATE = "2026-01-30T10:00:00";
+    const dd = document.getElementById("dd");
+    const hh = document.getElementById("hh");
+    const mm = document.getElementById("mm");
+    const ss = document.getElementById("ss");
+
+    function updateTimer(){
+      const now = new Date().getTime();
+      const target = new Date(EVENT_DATE).getTime();
+      const diff = target - now;
+
+      if(diff <= 0){
+        dd.textContent = "00";
+        hh.textContent = "00";
+        mm.textContent = "00";
+        ss.textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      dd.textContent = String(days).padStart(2,"0");
+      hh.textContent = String(hours).padStart(2,"0");
+      mm.textContent = String(mins).padStart(2,"0");
+      ss.textContent = String(secs).padStart(2,"0");
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // ====== Copy Link ======
+    const copyBtn = document.getElementById("copyLinkBtn");
+    copyBtn.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(window.location.href);
+        copyBtn.textContent = "✅ Link Copied";
+        setTimeout(() => copyBtn.textContent = "🔗 Copy Link", 1500);
+      }catch(err){
+        alert("Copy failed. Please copy manually from browser.");
+      }
+    });
+
+    // ====== FAQ Accordion ======
+    document.querySelectorAll(".faqItem").forEach(item => {
+      const btn = item.querySelector(".faqQ");
+      btn.addEventListener("click", () => item.classList.toggle("open"));
+    });
+
+    // ====== Registration Submit to Google Sheet ======
+    const regForm = document.getElementById("regForm");
+    const successModal = document.getElementById("successModal");
+    const closeSuccess = document.getElementById("closeSuccess");
+    const goHome = document.getElementById("goHome");
+
+    function openSuccess(){ successModal.classList.add("open"); }
+    function hideSuccess(){ successModal.classList.remove("open"); }
+
+    closeSuccess.addEventListener("click", hideSuccess);
+    goHome.addEventListener("click", hideSuccess);
+    successModal.addEventListener("click", (e) => {
+      if(e.target === successModal) hideSuccess();
+    });
+
+    regForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        teamName: document.getElementById("teamName").value.trim(),
+        leaderName: document.getElementById("leaderName").value.trim(),
+        dept: document.getElementById("dept").value.trim(),
+        teamSize: document.getElementById("teamSize").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        topic: document.getElementById("topicSelect").value.trim(),
+        projectTitle: document.getElementById("projectTitle").value.trim(),
+        description: document.getElementById("desc").value.trim(),
+        submittedAt: new Date().toLocaleString()
+      };
+
+      if(!/^\d{10}$/.test(data.phone)){
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+      }
+      if(!data.email.includes("@")){
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      // If Apps Script URL not added
+      if(GOOGLE_APPS_SCRIPT_WEBAPP_URL.includes("https://script.google.com/macros/s/AKfycby7W-q7j3i9GemeSMRO0ja38EIezSwtYXNVJ6pb59w3HIs59WqoHB5IIbCUI8WFp3rPnw/exec")){
+        openSuccess();
+        regForm.reset();
+        return;
+      }
+
+      try{
+        // Send to Google Apps Script
+        const res = await fetch(GOOGLE_APPS_SCRIPT_WEBAPP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const out = await res.json();
+        if(out.status === "success"){
+          openSuccess();
+          regForm.reset();
+        }else{
+          alert("Failed to save registration. Try again.");
+        }
+      }catch(err){
+        alert("Error connecting to Google Sheet. Please try again later.");
+      }
+    });
+
+    // ====== Init ======
+    populateTopicSelect();
+    renderTopics(TOPICS);
+  </script>
+</body>
+</html>
